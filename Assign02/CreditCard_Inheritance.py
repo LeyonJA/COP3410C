@@ -93,6 +93,16 @@ class CreditCard:
     
     def set_limit(self, limit):
         self._limit = limit
+    
+    def _set_balance(self, balance):
+        '''
+        C-2.30  At the close of Section 2.4.1, we suggest a model in which the CreditCard
+                class supports a nonpublic method, set balance(b), that could be used
+                by subclasses to affect a change to the balance, without directly accessing
+                the balance data member. Implement such a model, revising both the
+                CreditCard and PredatoryCreditCard classes accordingly
+        '''
+        self._balance = balance
         
     def charge(self,purchase):
         '''
@@ -104,8 +114,8 @@ class CreditCard:
         '''
         if not isinstance(purchase, (int, float)):
             raise TypeError('parameter must be numeric')
-        elif (purchase + self._balance) <= self._limit:
-            self._balance += purchase
+        elif (purchase + self.get_balance()) <= self._limit:
+            self._set_balance(self.get_balance() + purchase)
             return True    #The payment went through
         else:
             return False    #The payment didn't go through
@@ -128,7 +138,7 @@ class CreditCard:
         elif payment < 0:
             raise ValueError('parameter cannot be negative')
         else:
-            self._balance -= payment
+            self._set_balance(self.get_balance() - payment)
 
     def __str__(self):
         """ Returns a string representation of self """
@@ -153,6 +163,8 @@ class PredatoryCreditCard(CreditCard):     #a child of the credit card class, it
         #CreditCard. __init__ (self,customer, bank, acnt, limit) #use this technique or the one below
         super(). __init__ (customer, bank, acnt, limit) # call super constructor, this is the CreditCard initializer
         self._apr = apr
+        self._mTrans = 0 # number of monthly charges
+        self._amtDue = {"Payments": 0, "Amt": 0} # Payment tracker
 
     def get_apr(self):
         ''' Returns the APR on a creditcard '''
@@ -163,26 +175,56 @@ class PredatoryCreditCard(CreditCard):     #a child of the credit card class, it
         Charge given price to the card, assuming sufficient credit limit.
         Return True if charge was processed.
         Return False and assess 5 fee if charge is denied.
-        '''
-        success = super().charge(price)               # call inherited method
-        if not success:
-           self._balance += 5                          # assess penalty
-        return success                                 # caller expects return value
-
-    def process_month(self):
-        '''
-        Assess monthly interest on outstanding balance.
 
         C-2.28  The PredatoryCreditCard class of Section 2.4.1 provides a process month
                 method that models the completion of a monthly cycle. Modify the class
                 so that once a customer has made ten calls to charge in the current month,
                 each additional call to that function results in an additional $1 surcharge.        
         '''
-        if self._balance > 0:
-        # if positive balance, convert APR to monthly multiplicative factor
-            monthly_factor = pow(1 + self._apr, 1/12)   #1/12 power of (1+apr)
-            self._balance = monthly_factor * self._balance
+        self._mTrans += 1
+        if self._mTrans > 10:
+            super()._set_balance(super().get_balance() + 1)     # more than ten charges penalty
 
+        success = super().charge(price)                         # call inherited method
+        if not success:
+           super()._set_balance(super().get_balance() + 5)      # assess penalty
+        return success                                          # caller expects return value
+
+    def process_month(self):
+        '''
+        Assess monthly interest on outstanding balance.
+
+        C-2.29  Modify the PredatoryCreditCard class from Section 2.4.1 so that a customer is 
+                assigned a minimum monthly payment, as a percentage of the balance, and so that 
+                a late fee is assessed if the customer does not subsequently pay that minimum 
+                amount before the next monthly cycle.
+        '''
+        if super().get_balance() > 0:
+        # if positive balance, convert APR to monthly multiplicative factor
+            if self._amtDue["Amt"] > 0:
+                super()._set_balance(super().get_balance() + 15)          #apply late fee
+                self._amtDue["Payments"] = 0
+
+            monthly_factor = pow(1 + self._apr, 1/12)   #1/12 power of (1+apr)
+            super()._set_balance(monthly_factor * super().get_balance())
+
+    def make_payment(self, payment):
+        '''
+        C-2.29  Modify the PredatoryCreditCard class from Section 2.4.1 so that a customer is 
+                assigned a minimum monthly payment, as a percentage of the balance, and so that 
+                a late fee is assessed if the customer does not subsequently pay that minimum 
+                amount before the next monthly cycle.
+        '''
+        if self._amtDue["Payments"] == 0:
+            self._amtDue["Amt"] += super().get_balance() * 0.1
+            self._amtDue["Payments"] += 1       
+
+        if super().make_payment(payment):
+            self._amtDue["Amt"] -= payment
+            return True
+        else:
+            return False
+    
     def __str__(self):
         """ Returns a string representation of self """
         return "\ncustomer: " + str(self._customer) + "\nbank: " + str(self._bank) + "\naccount: " + str(self._account) + "\nlimit: " + str(self._limit) + "\nbalance: " + str(self._balance) + "\nAPR: " + str(self._apr)
