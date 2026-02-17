@@ -163,7 +163,7 @@ class PredatoryCreditCard(CreditCard):     #a child of the credit card class, it
         #CreditCard. __init__ (self,customer, bank, acnt, limit) #use this technique or the one below
         super(). __init__ (customer, bank, acnt, limit) # call super constructor, this is the CreditCard initializer
         self._apr = apr
-        self._mTrans = 0 # number of monthly charges
+        self._mTrans = 10 # number of monthly charges
         self._amtDue = {"Payments": 0, "Amt": 0} # Payment tracker
 
     def get_apr(self):
@@ -232,27 +232,64 @@ class PredatoryCreditCard(CreditCard):     #a child of the credit card class, it
 
 ############### Testing the class ########################################             
 if __name__ == "__main__":       #uses test cases to test the class inside the same script file
+    '''
+    ################## ORIGNAL(default) TEST CASE ########################################
+    ##    Adams_card = CreditCard('Adam Best', 'United', '2300 3000 0000 0000', 1000)
+    ##    print(Adams_card)
+    ##    Adams_card.charge(10.50)
+    ##    print(Adams_card)
+    ##    success = Adams_card.charge(2000)
+    ##    print("Did charge go through?", success)
+    
+        visa = PredatoryCreditCard('Sally Shoo', 'Vells','1234 5678 9012 3456', 5000,0.0825)   #calling the constructor
+    
+        print(visa)   # this shows the need for __str__ method
+    ##    print('visa balance:', visa.get_balance())
+    ##    print('visa limit:', visa.get_limit())
+    ##    print('visa account:', visa.get_account())
+        print('\nvisa charged $200:', visa.charge(200))
+        visa.make_payment(100)
+        visa.process_month()
+        print(visa)
+        print('\nvisa charged $5000:', visa.charge(5000)) 
+        visa.process_month()
+        print(visa)
 
-##    Adams_card = CreditCard('Adam Best', 'United', '2300 3000 0000 0000', 1000)
-##    print(Adams_card)
-##    Adams_card.charge(10.50)
-##    print(Adams_card)
-##    success = Adams_card.charge(2000)
-##    print("Did charge go through?", success)
-  
-    visa = PredatoryCreditCard('Sally Shoo', 'Vells','1234 5678 9012 3456', 5000,0.0825)   #calling the constructor
-   
-    print(visa)   # this shows the need for __str__ method
-##    print('visa balance:', visa.get_balance())
-##    print('visa limit:', visa.get_limit())
-##    print('visa account:', visa.get_account())
-    print('\nvisa charged $200:', visa.charge(200))
-    visa.make_payment(100)
-    visa.process_month()
-    print(visa)
-    print('\nvisa charged $5000:', visa.charge(5000)) 
-    visa.process_month()
-    print(visa)
+    ######################### SECOND TEST CASE ########################################
+    visa1 = PredatoryCreditCard('Sally Whoo', 'Vells','1234 5678 9012 3456', 1000,0.0825)   #calling the constructor; note that balance is set to 0 by default
+    visa2 = PredatoryCreditCard('Mary Jane', 'BNC','1234 5678 9012 2255', 2000,0.0425)   #calling the constructor
+    visa3 = CreditCard('Max McMill', 'Rhase','1234 5678 9000 0056', 2500,500)   #calling the constructor; note that balance is set inline, and apr is not.
+
+    print(visa1)
+    print(visa2)
+    print(visa3)
+
+    print()
+    print('visa1 charged $200:', visa1.charge(200))
+    print('visa2 charged $250:', visa2.charge(250))
+    print('visa3 charged $100:', visa3.charge(100))
+    print("All visa's make a $200 payment.") 
+    visa1.make_payment(200)
+    visa2.make_payment(200)
+    visa3.make_payment(200)
+    print("Visa 1 and 2 proccess thier month. (Visa 3 was not predatory)")
+    visa1.process_month()
+    visa2.process_month()
+
+    print(visa1)
+    print(visa2)
+    print(visa3)
+
+    print('\nvisa1 charged $5000:', visa1.charge(5000)) #test the overdraft fee
+    print(visa1)
+    '''
+    visa1 = PredatoryCreditCard('Sally Whoo', 'Vells','1234 5678 9012 3456', 1000,0.0825)   #calling the constructor; note that balance is set to 0 by default
+    
+    print(visa1)
+    print()
+    print('visa1 charged $200: (assumes 10 prior charges)', visa1.charge(200))
+    print('visa1 charged $50: ', visa1.charge(50))
+    print(visa1)
 
     '''
     R-2.8   Modify the declaration of the first for loop in the CreditCard tests, from
@@ -267,13 +304,13 @@ if __name__ == "__main__":       #uses test cases to test the class inside the s
     wallet.append(CreditCard('John Bowman', 'California Federal', '3485 0399 3395 1954', 3500))
     wallet.append(CreditCard('John Bowman', 'California Finance', '5391 0375 9387 5309', 5000))
     
-    for val in range(1, 17):
-        if not wallet[0].charge(10*val):
+    for val in range(1, 20):
+        if not wallet[0].charge(2*val):
             print(wallet[0])
             break
-        if not wallet[0].charge(15*val):
+        if not wallet[0].charge(35*val):
             print(wallet[1])
             break
-        if not wallet[0].charge(20*val):
+        if not wallet[0].charge(5*val):
             print(wallet[2])
             break
