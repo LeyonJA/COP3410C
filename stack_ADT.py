@@ -2,8 +2,6 @@
 ## Chapter 6: Stacks
 ## 11/02/2022
 
-
-
 class ArrayStack:
     '''LIFO Stack implementation using a Python list as underlying storage.'''
 
@@ -83,13 +81,4 @@ if __name__ == "__main__":
     S.push(6) # contents: [7, 9, 6]
 
 
-    reverse_file('ReverseFile.txt')
-
-
-    
-
-
-
-
-
-
+    ##reverse_file('ReverseFile.txt')
