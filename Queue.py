@@ -55,7 +55,7 @@ class Queue(object):
       return(str(self.__que))
 
 if __name__ == "__main__":
-    Q= Queue(20)    #create an object of array queue
+    """Q= Queue(20)    #create an object of array queue
     Q.enqueue(5)
     Q.dequeue()
     print(Q.is_empty())
@@ -74,6 +74,16 @@ if __name__ == "__main__":
     print(len(Q))
     print(Q)
     print(Q.first())
-    
+    """
+    Q = Queue(4)
+
+    print(Q)
+    Q.enqueue(1)
+    print(Q)
+    Q.enqueue(2)
+    Q.enqueue(3)
+    Q.enqueue(4)
+    print(Q)
+     
 
 
