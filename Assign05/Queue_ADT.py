@@ -1,3 +1,18 @@
+"""
+Queues
+3.  What values are returned during the following sequence of queue operations, if
+    executed on an initially empty queue? enqueue(5), enqueue(3), dequeue(),
+    dequeue(), enqueue(7), enqueue(6), dequeue(), dequeue(), enqueue(4),
+    enqueue(2), enqueue(8), dequeue(), dequeue(), enqueue(9), enqueue(1),
+    dequeue(), dequeue(). Use the Queue.py file to show the queue contents after
+    every operation.
+    
+4.  Suppose an initially empty queue Q has executed a total of 32 enqueue operations,
+    10 first operations, and 15 dequeue operations, 5 of which raised Empty errors
+    that were caught and ignored. What is the current size of Q? Add your answer to
+    the end of the python file.
+"""
+
 class ArrayQueue:
     '''FIFO queue implementation using a Python list as underlying storage.'''
     DEFAULT_CAPACITY = 10 # moderate capacity for all new queues
