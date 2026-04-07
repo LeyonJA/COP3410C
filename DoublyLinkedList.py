@@ -52,7 +52,7 @@ class DoublyLinkedBase:
 
 # USING THE DOUBLY LINK BASE CLASS FOR IMPLEMENTAION OF DEQUES
 
-class LinkedDeque( DoublyLinkedBase): # note the use of inheritance
+class LinkedDeque(DoublyLinkedBase): # note the use of inheritance
     '''Double-ended queue implementation based on a doubly linked list.'''
     
     class Empty(Exception):
@@ -61,13 +61,13 @@ class LinkedDeque( DoublyLinkedBase): # note the use of inheritance
     
     def first(self):
         '''Return (but do not remove) the element at the front of the deque.'''
-        if self.is_empty( ):
+        if self.is_empty():
            raise Empty("Deque is empty")
         return self.header.next.element # real item just after header
     
     def last(self):
         '''Return (but do not remove) the element at the back of the deque.'''
-        if self.is_empty( ):
+        if self.is_empty():
           raise Empty("Deque is empty")
         return self.trailer.prev.element # real item just before trailer
    
@@ -92,17 +92,17 @@ class LinkedDeque( DoublyLinkedBase): # note the use of inheritance
             '''Remove and return the element from the back of the deque.
             Raise Empty exception if the deque is empty.
             '''
-            if self.is_empty( ):
+            if self.is_empty():
                 raise Empty("Deque is empty")
             return self.delete_node(self.trailer.prev) # use inherited method
 
 if __name__ == "__main__":
-    LD = LinkedDeque();
-    LD.insert_first("End ");
-    LD.insert_last("Of ");
-    LD.insert_last("Semester ");
-    LD.insert_last("Approaching");
-    LD.insert_first("Soon enough ");
-    LD.insert_last("!");
+    LD = LinkedDeque()
+    LD.insert_first("End ")
+    LD.insert_last("Of ")
+    LD.insert_last("Semester ")
+    LD.insert_last("Approaching")
+    LD.insert_first("Soon enough ")
+    LD.insert_last("!")
 
-    
+    print(LD.is_empty())
