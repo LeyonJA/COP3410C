@@ -1,12 +1,17 @@
 """
+Coded by: Leyon Anderson
+modifying the provided Queue_ADT.py script to answer the following tasks.
+4/06/2026
+COP3410 Assignment #5
+
 Queues
 3.  What values are returned during the following sequence of queue operations, if
     executed on an initially empty queue? enqueue(5), enqueue(3), dequeue(),
-    dequeue(), enqueue(7), enqueue(6), dequeue(), dequeue(), enqueue(4),
     enqueue(2), enqueue(8), dequeue(), dequeue(), enqueue(9), enqueue(1),
+    dequeue(), enqueue(7), enqueue(6), dequeue(), dequeue(), enqueue(4),
     dequeue(), dequeue(). Use the Queue.py file to show the queue contents after
     every operation.
-    
+
 4.  Suppose an initially empty queue Q has executed a total of 32 enqueue operations,
     10 first operations, and 15 dequeue operations, 5 of which raised Empty errors
     that were caught and ignored. What is the current size of Q? Add your answer to
@@ -80,26 +85,52 @@ class Empty(Exception):
     '''Error attempting to access an element from an empty container.'''
     pass
 
-
-
 if __name__ == "__main__":
-    Q= ArrayQueue()    #create an object of array queue
-    Q.enqueue(5)
-    Q.dequeue()
-    print(Q.is_empty())
-    Q.enqueue(1)
-    Q.enqueue(2)
-    Q.enqueue(3)
-    Q.enqueue(4)
-    Q.enqueue(5)
-    Q.enqueue(6)
-    Q.enqueue(7)
-    Q.enqueue(8)
-    Q.enqueue(9)
-    Q.enqueue(10)
-    Q.enqueue(11)
-    Q.enqueue(12)
-    print(Q.len())
-    print(Q)
-    print(Q.first())
-    Q.resize(100)
+    Q = ArrayQueue()    #create an object of array queue
+    A = ArrayQueue()
+
+    print(f'{A} initially empty!')
+    A.enqueue(5)
+    print(A)
+    A.enqueue(3)
+    print(A)
+    A.dequeue()
+    print(A)
+    A.enqueue(2)
+    print(A)
+    A.enqueue(8)
+    print(A)
+    A.dequeue()
+    print(A)
+    A.dequeue()
+    print(A)
+    A.enqueue(9)
+    print(A)
+    A.enqueue(1)
+    print(A)
+    A.dequeue()
+    print(A)
+    A.enqueue(7)
+    print(A)
+    A.enqueue(6)
+    print(A)
+    A.dequeue()
+    print(A)
+    A.dequeue()
+    print(A)
+    A.enqueue(4)
+    print(A)
+    A.dequeue()
+    print(A)
+    A.dequeue()
+    print(f'{A} the result')
+
+    """
+    4.  Suppose an initially empty queue Q has executed a total of 32 enqueue operations,
+        10 first operations, and 15 dequeue operations, 5 of which raised Empty errors
+        that were caught and ignored. What is the current size of Q? Add your answer to
+        the end of the python file.
+    
+        Ths size of Q should be 32 - 10 = 22, assuming 5 failed dequeue operations. First
+        operations would not impact size.
+    """
