@@ -27,7 +27,7 @@ class DoublyLinkedBase:
         '''Return the number of elements in the list.'''
         return self.size
 
-    def is_empty():
+    def is_empty(self):
         return self.size == 0
 
     def insert_between(self, e, predecessor, successor):
